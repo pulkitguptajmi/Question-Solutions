@@ -1,0 +1,78 @@
+/*
+Balancing Brackets:
+Given an input of brackets (string type). Print "YES" if all the brackets are balanced with
+opening and closing.
+Brackets can be of type {,},[,],(,) Refer to sample input and output for reference
+Input:
+{[()]}
+Output:
+YES
+Input:
+{[(])}
+Output:
+NO 
+Time Duration – 30 Mins
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isMatchingBracketPair(char& currentChar, char& charOnTopOfStack){
+  if((currentChar == ')' && charOnTopOfStack == '(') || (currentChar == '}' && charOnTopOfStack == '{') || (currentChar == ']' && charOnTopOfStack == '['))
+    return true;
+   else
+    return false;
+
+}
+
+string isBalancedString(string& inputString) {
+    int sizeOfInputString = inputString.size();
+    // handling the base case
+    if(sizeOfInputString == 0){
+        return "YES"; // empty strings are balanced
+    }
+    
+    stack<int> validatorStack;
+    
+    for(int i = 0; i < sizeOfInputString; i++){
+        bool validatorStackCurrentSize = validatorStack.size();
+        
+        char currentChar = inputString[i];
+        bool currentCharIsClosingBracket = (currentChar == ')') || (currentChar == '}') || (currentChar == ']');
+        
+        // if stack is empty, push whatever the current char is. If stack is not empty & the current bracket is opening, push anyways
+        // Hence both the conditions - stack in non empty and current char is closing must be fulfiled to go into the below if conditional
+        if(validatorStackCurrentSize != 0 && currentCharIsClosingBracket){ 
+           char charOnTopOfStack = validatorStack.top();
+       
+            if(isMatchingBracketPair(currentChar, charOnTopOfStack)){
+                validatorStack.pop();
+            }else{
+                return "NO"; // unbalanced brackets, as the current bracket is closing and doesn't have a corresponding open bracket at stack top
+            }
+        }else{
+            validatorStack.push(currentChar); // either stack is empty or the current bracket is opening
+        }
+        
+    }
+    
+    if(validatorStack.size() ==0)
+        return "YES";
+    else {
+        return "NO";
+    }
+}
+
+int main()
+{
+    ios_base :: sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    string inputString = "";
+    cin >> inputString;
+    
+    cout << isBalancedString(inputString) << '\n';
+
+    return 0;
+}
