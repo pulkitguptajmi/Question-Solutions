@@ -1,0 +1,92 @@
+/*
+   
+   Rotating Matrix:
+  Given an array of array as below, rotate the array 90 degrees.
+  Refer to sample input and output for reference:
+  Input:
+  [
+  [1,2,3]
+  [4,5,6]
+  [7,8,9]
+  ]
+  Output:
+  [
+  [7,4,1]
+  [8,5,2]
+  [9,6,3]
+  ]
+   
+   
+   
+  *** Assumptions taken from the question: number of rows == number of columns in our 2D matrix ***
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void printMatrix(vector<vector<int>>& inputMatrix){
+	int dimension = inputMatrix.size();
+	// handling the base case
+	if(dimension == 0){
+          cout << "Error: Empty Matrix passed for printing" << '\n';
+          return;
+   }
+		
+	for(int row = 0; row < dimension ; row++){
+		for(int col = 0; col < dimension; col++){
+			cout << inputMatrix[row][col] << " ";
+		}
+		cout << '\n';
+	}
+	
+	return;
+}
+
+void rotateMatrixByNinetyDegrees(vector<vector<int>>& inputMatrix) {
+   int dimension = inputMatrix.size();
+   // handling the base case
+   if(dimension == 0){
+          cout << "Error: Empty Matrix passed for rotating" << '\n';
+          return;
+   }
+          
+    reverse(inputMatrix.begin(), inputMatrix.end());   
+        
+    for(int row = 0; row < dimension; row++){   
+      for(int col = row + 1; col < dimension; col++){
+        swap(inputMatrix[row][col], inputMatrix[col][row]);
+      }
+    }
+    
+    cout << "Rotated Matrix:" << '\n';
+    printMatrix(inputMatrix); // printing the rotated array
+ 
+    return;
+}
+
+
+int main(){
+  ios_base :: sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
+  
+  int dimension = 0;
+  cin >> dimension; // taking only one variable input dimension, as rows == columns
+  
+  vector<vector<int>> inputMatrix (dimension, vector<int>(dimension, 0));
+  
+  for(int row = 0; row < dimension; row++){
+    for(int col = 0; col < dimension; col++){
+      cin >> inputMatrix[row][col];
+     }
+   }
+   
+    // printing the original matrix
+    cout << "Original Matrix:" << '\n';
+    printMatrix(inputMatrix);
+   
+   rotateMatrixByNinetyDegrees(inputMatrix);
+   cout << '\n' << '\n';
+   
+   return 0;
+}
